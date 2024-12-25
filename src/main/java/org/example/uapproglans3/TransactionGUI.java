@@ -1,7 +1,10 @@
 package org.example.uapproglans3;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TransactionGUI extends JDialog {
     private JTextField transactionCodeField, bookCodeField, quantityField;
@@ -12,34 +15,74 @@ public class TransactionGUI extends JDialog {
         super(parent, "Transaksi", true);
         this.parent = parent;
 
-        setLayout(new GridLayout(5, 2));
-        setSize(400, 300);
+        // Set layout and size
+        setLayout(new GridBagLayout());
+        setSize(600, 500); // Memperbesar ukuran dialog
+        setLocationRelativeTo(parent); // Center the dialog relative to the parent
 
-        // Kode Transaksi otomatis
+        // Create a GridBagConstraints object for layout management
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding
+
+        // Title
+        JLabel titleLabel = new JLabel("Transaksi Buku");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(Color.BLUE);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2; // Span across two columns
+        add(titleLabel, gbc);
+
+        // Kode Transaksi
+        gbc.gridwidth = 1; // Reset to default
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        add(new JLabel("Kode Transaksi:"), gbc);
         transactionCodeField = new JTextField("TRANS" + System.currentTimeMillis());
         transactionCodeField.setEditable(false);
-        add(new JLabel("Kode Transaksi:"));
-        add(transactionCodeField);
+        gbc.gridx = 1;
+        add(transactionCodeField, gbc);
 
-        add(new JLabel("Kode Pelanggan:"));
+        // Kode Pelanggan
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(new JLabel("Kode Pelanggan:"), gbc);
         customerComboBox = new JComboBox<>();
         loadCustomersToComboBox(); // Load customers into the combo box
-        add(customerComboBox);
+        gbc.gridx = 1;
+        add(customerComboBox, gbc);
 
-        add(new JLabel("Kode Buku:"));
+        // Kode Buku
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        add(new JLabel("Kode Buku:"), gbc);
         bookCodeField = new JTextField();
         bookCodeField.setEditable(false); // Kode buku tidak bisa diedit
-        add(bookCodeField);
+        gbc.gridx = 1;
+        add(bookCodeField, gbc);
 
-        add(new JLabel("Jumlah:"));
+        // Jumlah
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        add(new JLabel("Jumlah:"), gbc);
         quantityField = new JTextField();
-        add(quantityField);
+        gbc.gridx = 1;
+        add(quantityField, gbc);
+
+        // Button Panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
 
         JButton addToCartButton = new JButton("Tambah ke Keranjang");
-        add(addToCartButton);
-
         JButton viewCartButton = new JButton("Lihat Keranjang");
-        add(viewCartButton);
+        buttonPanel.add(addToCartButton);
+        buttonPanel.add(viewCartButton);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2; // Span across two columns
+        add(buttonPanel, gbc);
 
         // Tabel Buku
         JTable bookTable = new JTable(parent.getBookTableModel());
@@ -53,8 +96,18 @@ public class TransactionGUI extends JDialog {
                 }
             }
         });
-        add(new JScrollPane(bookTable));
 
+        // Mengatur lebar kolom tabel
+        bookTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        JScrollPane scrollPane = new JScrollPane(bookTable);
+        scrollPane.setPreferredSize(new Dimension(550, 150)); // Mengatur ukuran scroll pane
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2; // Span across two columns
+        add(scrollPane, gbc);
+
+        // Action Listeners
         addToCartButton.addActionListener(e -> addToCart());
         viewCartButton.addActionListener(e -> viewCart());
 
