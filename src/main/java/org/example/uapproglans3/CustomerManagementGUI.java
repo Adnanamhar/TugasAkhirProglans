@@ -87,20 +87,31 @@ public class CustomerManagementGUI extends JDialog {
 
     private void updateCustomer() {
         int selectedRow = customerTable.getSelectedRow();
-        if (selectedRow != -1) {
-            String id = idField.getText();
-            String name = nameField.getText();
-            String gender = maleButton.isSelected() ? "L" : "P";
-            String address = addressField.getText();
-
-            Customer customer = new Customer(id, name, gender, address);
-            customerDatabase.updateCustomer(selectedRow, customer);
-            loadCustomersToTable();
-            clearFields();
-        } else {
-            JOptionPane.showMessageDialog(this, "Pilih pelanggan untuk diubah!", "Error", JOptionPane.ERROR_MESSAGE);
+        if (selectedRow == -1) { // Jika tidak ada baris yang dipilih
+            JOptionPane.showMessageDialog(this, "Harap pilih pelanggan yang ingin diubah!", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Menghentikan eksekusi metode
         }
+
+        String id = idField.getText();
+        String name = nameField.getText();
+        String gender = maleButton.isSelected() ? "L" : "P";
+        String address = addressField.getText();
+
+        if (id.isEmpty() || name.isEmpty() || address.isEmpty()) { // Validasi input kosong
+            JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Buat objek customer baru berdasarkan input
+        Customer customer = new Customer(id, name, gender, address);
+
+        // Update data di database dan tabel
+        customerDatabase.updateCustomer(selectedRow, customer);
+        loadCustomersToTable();
+        clearFields();
+        JOptionPane.showMessageDialog(this, "Data pelanggan berhasil diubah!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
     }
+
 
     private void deleteCustomer() {
         int selectedRow = customerTable.getSelectedRow();
