@@ -108,7 +108,14 @@ public class TransactionGUI extends JDialog {
         add(scrollPane, gbc);
 
         // Action Listeners
-        addToCartButton.addActionListener(e -> addToCart());
+        addToCartButton.addActionListener(e -> {
+            if (validateFields()) {
+                addToCart();
+            } else {
+                JOptionPane.showMessageDialog(this, "Semua kolom harus diisi sebelum menambah ke keranjang!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         viewCartButton.addActionListener(e -> viewCart());
 
         setVisible(true);
@@ -118,6 +125,27 @@ public class TransactionGUI extends JDialog {
         for (Customer customer : parent.customerDatabase.getCustomers()) {
             customerComboBox.addItem(customer.getId() + " - " + customer.getName());
         }
+    }
+
+    private boolean validateFields() {
+        // Validasi apakah semua kolom terisi
+        if (customerComboBox.getSelectedItem() == null ||
+                bookCodeField.getText().trim().isEmpty() ||
+                quantityField.getText().trim().isEmpty()) {
+            return false;
+        }
+
+        // Validasi apakah jumlah adalah angka positif
+        try {
+            int quantity = Integer.parseInt(quantityField.getText().trim());
+            if (quantity <= 0) {
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 
     private void addToCart() {
