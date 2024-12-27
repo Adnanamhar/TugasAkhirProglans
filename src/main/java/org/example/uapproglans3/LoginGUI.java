@@ -38,21 +38,32 @@ public class LoginGUI extends JFrame {
         formPanel.setBackground(Color.WHITE);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Username
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
         formPanel.add(new JLabel("Username:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
         usernameField = new JTextField(20);
-        gbc.gridx = 1; gbc.gridy = 0;
+        usernameField.setPreferredSize(new Dimension(250, 30));
         formPanel.add(usernameField, gbc);
 
         // Password
-        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
         formPanel.add(new JLabel("Password:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
         passwordField = new JPasswordField(20);
-        gbc.gridx = 1; gbc.gridy = 1;
+        passwordField.setPreferredSize(new Dimension(250, 30));
         formPanel.add(passwordField, gbc);
 
         add(formPanel, BorderLayout.CENTER);
@@ -64,6 +75,7 @@ public class LoginGUI extends JFrame {
         loginButton.setBackground(new Color(50, 150, 250));
         loginButton.setForeground(Color.WHITE);
         loginButton.setFocusPainted(false);
+        loginButton.setPreferredSize(new Dimension(100, 30));
 
         loginButton.addActionListener(e -> {
             String username = usernameField.getText();

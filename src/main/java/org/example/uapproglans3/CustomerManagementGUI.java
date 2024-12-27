@@ -15,41 +15,63 @@ public class CustomerManagementGUI extends JDialog {
         this.customerDatabase = customerDatabase;
         setTitle("Data Pelanggan");
         setSize(600, 400);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10)); // Memberikan jarak antar komponen
+        setLocationRelativeTo(null);
 
         // Form Panel
-        JPanel formPanel = new JPanel(new GridLayout(5, 2));
-        idField = new JTextField();
-        nameField = new JTextField();
-        addressField = new JTextField();
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Kode Pelanggan
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("Kode Pelanggan:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 0;
+        idField = new JTextField(20);
+        idField.setPreferredSize(new Dimension(300,30));
+        formPanel.add(idField, gbc);
+
+        // Nama
+        gbc.gridx = 0; gbc.gridy = 1;
+        formPanel.add(new JLabel("Nama:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 1;
+        nameField = new JTextField(20);
+        nameField.setPreferredSize(new Dimension(300,30));
+        formPanel.add(nameField, gbc);
+
+        // Jenis Kelamin
+        gbc.gridx = 0; gbc.gridy = 2;
+        formPanel.add(new JLabel("Jenis Kelamin:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 2;
+        JPanel genderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         maleButton = new JRadioButton("Laki-Laki");
         femaleButton = new JRadioButton("Perempuan");
         ButtonGroup genderGroup = new ButtonGroup();
         genderGroup.add(maleButton);
         genderGroup.add(femaleButton);
-
-        formPanel.add(new JLabel("Kode Pelanggan:"));
-        formPanel.add(idField);
-        formPanel.add(new JLabel("Nama:"));
-        formPanel.add(nameField);
-        formPanel.add(new JLabel("Jenis Kelamin:"));
-        JPanel genderPanel = new JPanel();
         genderPanel.add(maleButton);
         genderPanel.add(femaleButton);
-        formPanel.add(genderPanel);
-        formPanel.add(new JLabel("Alamat:"));
-        formPanel.add(addressField);
+        formPanel.add(genderPanel, gbc);
+
+        // Alamat
+        gbc.gridx = 0; gbc.gridy = 3;
+        formPanel.add(new JLabel("Alamat:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 3;
+        addressField = new JTextField(20);
+        addressField.setPreferredSize(new Dimension(300,30));
+        formPanel.add(addressField, gbc);
 
         add(formPanel, BorderLayout.NORTH);
 
-        // Table
+        // Tabel Pelanggan
         tableModel = new DefaultTableModel(new String[]{"ID", "Nama", "Gender", "Alamat"}, 0);
         customerTable = new JTable(tableModel);
         loadCustomersToTable();
         add(new JScrollPane(customerTable), BorderLayout.CENTER);
 
-        // Button Panel
-        JPanel buttonPanel = new JPanel();
+        // Panel Tombol
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton addButton = new JButton("Tambah");
         JButton updateButton = new JButton("Ubah");
         JButton deleteButton = new JButton("Hapus");
@@ -120,4 +142,3 @@ public class CustomerManagementGUI extends JDialog {
         femaleButton.setSelected(false);
     }
 }
-

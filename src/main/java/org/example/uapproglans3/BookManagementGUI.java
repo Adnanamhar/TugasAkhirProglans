@@ -16,46 +16,84 @@ public class BookManagementGUI extends JDialog {
         this.book = book;
         this.isUpdate = book != null;
 
-        setLayout(new GridLayout(8, 2));
-        setSize(400, 300);
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Margin antar elemen
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        add(new JLabel("Title:"));
+        // Title
+        gbc.gridx = 0; gbc.gridy = 0;
+        add(new JLabel("Title:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 0;
         titleField = new JTextField(isUpdate ? book.getTitle() : "");
-        add(titleField);
+        titleField.setPreferredSize(new Dimension(300, 30));
+        add(titleField, gbc);
 
-        add(new JLabel("Author:"));
+        // Author
+        gbc.gridx = 0; gbc.gridy = 1;
+        add(new JLabel("Author:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 1;
         authorField = new JTextField(isUpdate ? book.getAuthor() : "");
-        add(authorField);
+        authorField.setPreferredSize(new Dimension(300, 30));
+        add(authorField, gbc);
 
-        add(new JLabel("Publisher:"));
-        publisherField = new JTextField(isUpdate ? book.getPublisher() : "");
-        add(publisherField);
+        // Publisher
+        gbc.gridx = 0; gbc.gridy = 2;
+        add(new JLabel("Publisher:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 2;
+        publisherField = new JTextField(isUpdate ? book.getPublisher() : "", 40);
+        publisherField.setPreferredSize(new Dimension(300, 30));
+        add(publisherField, gbc);
 
-        add(new JLabel("Year:"));
-        yearField = new JTextField(isUpdate ? String.valueOf(book.getYear()) : "");
-        add(yearField);
+        // Year
+        gbc.gridx = 0; gbc.gridy = 3;
+        add(new JLabel("Year:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 3;
+        yearField = new JTextField(isUpdate ? String.valueOf(book.getYear()) : "", 40);
+        yearField.setPreferredSize(new Dimension(300, 30));
+        add(yearField, gbc);
 
-        add(new JLabel("Stock:"));
-        stockField = new JTextField(isUpdate ? String.valueOf(book.getStock()) : "");
-        add(stockField);
+        // Stock
+        gbc.gridx = 0; gbc.gridy = 4;
+        add(new JLabel("Stock:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 4;
+        stockField = new JTextField(isUpdate ? String.valueOf(book.getStock()) : "", 40);
+        stockField.setPreferredSize(new Dimension(300, 30));
+        add(stockField, gbc);
 
-        add(new JLabel("Price:"));
-        priceField = new JTextField(isUpdate ? String.valueOf(book.getPrice()) : "");
-        add(priceField);
+        // Price
+        gbc.gridx = 0; gbc.gridy = 5;
+        add(new JLabel("Price:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 5;
+        priceField = new JTextField(isUpdate ? String.valueOf(book.getPrice()) : "", 40);
+        priceField.setPreferredSize(new Dimension(300, 30));
+        add(priceField, gbc);
 
-        add(new JLabel("Image:"));
+        // Image Label
+        gbc.gridx = 0; gbc.gridy = 6;
+        add(new JLabel("Image:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 6;
         imageLabel = new JLabel(isUpdate ? book.getImagePath() : "No Image", SwingConstants.CENTER);
-        add(imageLabel);
+        add(imageLabel, gbc);
 
+        // Upload Button
+        gbc.gridx = 1; gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
         JButton uploadButton = new JButton("Upload Image");
-        add(uploadButton);
+        add(uploadButton, gbc);
 
+        // Save Button
+        gbc.gridx = 1; gbc.gridy = 8;
+        gbc.anchor = GridBagConstraints.CENTER;
         JButton saveButton = new JButton(isUpdate ? "Update" : "Add");
-        add(saveButton);
+        add(saveButton, gbc);
 
+        // Tambahkan Listener
         uploadButton.addActionListener(e -> uploadImage());
         saveButton.addActionListener(e -> saveBook());
 
+        setSize(600, 400);
+        setLocationRelativeTo(parent); // Center the dialog relative to the parent
         setVisible(true);
     }
 

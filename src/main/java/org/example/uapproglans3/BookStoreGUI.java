@@ -22,6 +22,7 @@ public class BookStoreGUI extends JFrame {
         setSize(1000, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         // Header
         JLabel headerLabel = new JLabel("Toko Buku Modern", SwingConstants.CENTER);

@@ -22,6 +22,11 @@ public class TransactionDatabase {
         return transactions;
     }
 
+    public void removeTransactionByOrderId(String orderId) {
+        transactions.removeIf(transaction -> transaction.getOrderId().equals(orderId));
+        saveTransactions(); // Pastikan data disimpan setelah dihapus
+    }
+
     private void saveTransactions() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
             oos.writeObject(transactions);

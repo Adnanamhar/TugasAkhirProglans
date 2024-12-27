@@ -19,6 +19,7 @@ public class CartGUI extends JDialog {
 
         setLayout(new BorderLayout());
         setSize(600, 400);
+        setLocationRelativeTo(parent); // Center the dialog relative to the parent
 
         // Table
         tableModel = new DefaultTableModel(new String[]{"Judul Buku", "Jumlah", "Subtotal"}, 0);
